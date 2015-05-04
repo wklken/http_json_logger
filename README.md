@@ -106,7 +106,7 @@ each line in the file is json
 
 ### Donation
 
-如果你认为对你有所帮助, You can Buy me a coffee:)
+You can Buy me a coffee:)
 
 [donation](http://www.wklken.me/pages/donation.html)
 
