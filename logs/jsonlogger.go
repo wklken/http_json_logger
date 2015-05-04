@@ -12,6 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// 这份代码是修改beego/logs模块, 删除封装精简后的结果
+// this file was modified from beego/logs, under apache license 2.0
+// source code url:https://github.com/astaxie/beego/tree/master/logs
+
 package logs
 
 import (

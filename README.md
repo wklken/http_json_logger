@@ -14,6 +14,8 @@ e.g. tranfer by logstash to elasticsearch (the log file will be saved forever, t
     http json request => http_json_logger => xxx_data.log => logstash shippter => [redis]  => logstash indexer => elasticsearch
 
 
+the logger module is modified from code:https://github.com/astaxie/beego/tree/master/logs
+
 ========================
 
 ### example
