@@ -106,6 +106,71 @@ each line in the file is json
     400: invalid platform or invalid doctype
     500: Internal Server Error
 
+========================
+
+### logstash shipper and indexer config sample
+
+shipper
+
+```
+input {
+  file {
+    path => [ "/data/collect/ios/*.log", "/data/collect/android/*.log", "/data/collect/web/*.log", "/data/collect/wap/*.log" ]
+    start_position => "beginning"
+    codec => json
+  }
+}
+
+# make ts to @timestamp
+filter {
+  date {
+    match => [ "ts" , "dd/MMM/YYYY:HH:mm:ss Z", "UNIX" ]
+  }
+}
+
+
+output {
+  redis { host => "127.0.0.1" data_type => "list" key => "logstash:collect:log" }
+}
+
+```
+
+indexer
+
+```
+input {
+  redis {
+    host => "127.0.0.1"
+    port => "6379"
+    key => "logstash:collect:log"
+    data_type => "list"
+    codec  => "json"
+    type => "logstash-collect-log"
+    tags => ["collect"]
+  }
+}
+
+
+# drop invalid doctype/platform
+filter {
+    if ![doctype] {
+        drop {}
+    }
+    if ![platform] {
+        drop {}
+    }
+}
+
+output {
+    elasticsearch {
+      host => "127.0.0.1"
+      index => "%{platform}-%{doctype}-%{+YYYY.MM.dd}"
+    }
+}
+```
+
+========================
+
 ### Donation
 
 You can Buy me a coffee:)

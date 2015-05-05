@@ -40,12 +40,14 @@ func JsonInputHandler(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		// panic("error")
-		http.Error(w, "Read request Body Error", http.StatusInternalServerError)
+		http.Error(w, "Read request Body Error", http.StatusBadRequest)
 		return
 	}
 
 	// 4. judge if is json body
 	d := json.NewDecoder(strings.NewReader(string(body)))
+
+	// default num type in golang is float64, will trans to 1.2423434e+07, `UseNumber` make sure use Number
 	d.UseNumber()
 	var data interface{}
 	if err := d.Decode(&data); err != nil {
